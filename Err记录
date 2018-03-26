@@ -1,0 +1,76 @@
+在整合Spring boot+Mybitas时遇到Mybatis的一个错误：Spring bootInvalid bound statement (not found)
+解决方法：
+1：检查xml文件所在package名称是否和Mapper interface所在的包名一一对应；
+2：检查xml的namespace是否和xml文件的package名称一一对应；
+3：检查方法名称是否对应；
+4：去除xml文件中的中文注释；
+5：随意在xml文件中加一个空格或者空行然后保存。
+我的错误为第一个。未将xml文件与interface的package名称一致
+=============================================================================================
+ 安装Redis 2.8.18时报错：
+
+    zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory
+    zmalloc.h:55:2: error: #error "Newer version of jemalloc required"
+    make[1]: *** [adlist.o] Error 1
+    make[1]: Leaving directory `/data0/src/redis-2.6.2/src'
+    make: *** [all] Error 2
+说关于分配器allocator， 如果有MALLOC  这个 环境变量， 会有用这个环境变量的 去建立Redis。
+
+而且libc 并不是默认的 分配器， 默认的是 jemalloc, 因为 jemalloc 被证明 有更少的 fragmentation problems 比libc。
+
+但是如果你又没有jemalloc 而只有 libc 当然 make 出错。 所以加这么一个参数。
+**解决办法**
+make MALLOC=libc
+==========================================================================================
+linux查看服务   pstree -p | grep redis
+linux查看端口占用	netstat -tunpl | grep 6379
+==========================================================================================
+maven打包报错：[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.18.1:test (default-test) on project favorites-web: There are test failures.
+解决方法：
+
+打包跳过测试有两种方法
+
+一是命令行，
+mvn clean package -Dmaven.test.skip=true(用方法一解决了)
+
+二是写入pom文件，
+<plugin>  
+        <groupId>org.apache.maven.plugins</groupId>  
+        <artifactId>maven-surefire-plugin</artifactId>  
+        <version>2.4.2</version>  
+        <configuration>  
+          <skipTests>true</skipTests>  
+        </configuration>  
+</plugin>  
+================================================================================================
+修改ContOS7系统编码
+---修改/etc/locale.conf文件，用locale -a查看系统支持的语言 (用了没效果)
+---修改/etc/profile文件，添加export LANG=zh_CN.utf8到文件末尾(完美解决)
+==================================================================================================
+Spring boot 集成mybatis遇到错误：org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):但是Application启动正常
+检查mapper文件的包命名空间是否与dao的命名空间一致！！！
+===================================================================================================
+使用Spring-data-jpa报找不到实体属性的错误
+类似这样：org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userController': Injection of resource dependencies failed; nested exception is 
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: 
+Failed to create query for method public abstract com.example.demo.domain.entity.User com.example.demo.domain.dao.UserRepository.findByName(java.lang.String)! 
+No property name found for type User! Did you mean 'age'?
+
+原因可能是你的dao层的方法命名不规范，例如User里有一个userName属性，则查询方法必须写成findByUserName，写成findByName会报上面的错误
+============================================================================================================================
+Spring boot 静态资源放到默认static目录访问页面获取静态资源报405错误 后台日志信息Request method 'GET' not supported
+方法注解类似这样：@RequestMapping(name = "/getUser",method = RequestMethod.POST)会导致静态资源无法访问
+解决办法：查找自己写的controller中有没有requestMapping注解指定访问的url时，将注解的属性写为name=/xxx，将name改为value，问题解决。
+=============================================================================================================================
+git clone -b v2.8.1 https://git.oschina.net/oschina/android-app.git  用git  down远程分支的代码 v2.8.1代表分支号 后面跟的是仓库地址
+=======================================================================================================================================
+Spring-boot静态资源问题：
+写静态资源位置的时候，不要带上映射的目录名（如/static/，/public/ ，/resources/，/META-INF/resources/）！！！
+======================================================================================================================================
+【错误内容】：SQL Error (2013): Lost connection to MySQL server at 'waiting for initial communication packet', system error: 0
+
+【错产生经过】：利用Navicat链接MySQL时出现.
+
+【解决办法】：打开my.ini，找到[mysqld]项，在其后加入一句：skip-name-resolve，保存，重启mysql服务即可~
+
+【错误原因】：可能是因为我自己搭建mq集群修改了hosts文件，给当前主机添加了主机名导致。加入skip-name-resolve可以禁用MYSQL的DNS解析
