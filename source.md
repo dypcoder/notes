@@ -3,7 +3,7 @@
 				时候用来存储其他的数据的，在1.8之前一直都是数组存储hash冲突的数据，1.8之后当数组容量超过8个之后，树叶转变为红黑树数据结构来提高效率。<br/>
 	put     ===><br/>
 <hr/>
-	```java
+	```Java
 	public V put(K key, V value) {
 	    //这边有个为key计算hash值的操作,hash算法还不太明白。。。
         return putVal(hash(key), key, value, false, true);
