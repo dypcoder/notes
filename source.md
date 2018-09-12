@@ -75,3 +75,99 @@ public V put(K key, V value) {
         return null;
     }	
 ```
+#### resize解析
+***
+```java
+final Node<K,V>[] resize() {
+    //新建一个引用指向原来的hashTable
+        Node<K,V>[] oldTab = table;
+        //如果new一个HashMap的话初始化操作并不在HashMap的构造函数中完成而是在
+        //put的时候会触发resize(因为 ++size>threshold)完成hashTable的大小初始化
+        //指定大小的话就是按照指定额大小初始化，没指定就是16
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap > 0) {
+            //这边判断容量大小是否已经大于 1 << 30(即Int最大值除了最高位其他为都为0)
+            //大于的话就让最大容量等于int最大值，不在扩容
+            if (oldCap >= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            //没到最大的话就将原先的容量扩大两倍
+            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr << 1; // double threshold
+        }
+        //这就是上面所说的指定初始大小创建HashMap的勤快
+        else if (oldThr > 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        //都没有就按默认大小初始化
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        //同样是指定初始大小new HashMap的时候初始化一些值
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        //新建一个HashTable开始向新表转移数据
+        @SuppressWarnings({"rawtypes","unchecked"})
+            Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        table = newTab;
+        //循环遍历Node数组转移数据到新的HashTable
+        if (oldTab != null) {
+            for (int j = 0; j < oldCap; ++j) {
+                //新建局部变量引用原HashTable的每个数据
+                Node<K,V> e;
+                if ((e = oldTab[j]) != null) {
+                    //将数组中的元素置为null便于垃圾回收
+                    oldTab[j] = null;
+                    //如果该处没有变为链表则直接放入新HashTable
+                    if (e.next == null)
+                        newTab[e.hash & (newCap - 1)] = e;
+                    //如果该处元素是红黑树的话按红黑树处理
+                    else if (e instanceof TreeNode)
+                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                    //该处元素已经转化为链表，则需要对链表的next节点做处理
+                    else { // preserve order
+                        Node<K,V> loHead = null, loTail = null;
+                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> next;
+                        //上面定义了三个局部变量，用来转移原有链表到新HashTable
+                        //下面就是循环链表所有节点并通过局部变量的引用最后将局部变量的值放入新hashTable
+                        do {
+                            next = e.next;
+                            if ((e.hash & oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+```
