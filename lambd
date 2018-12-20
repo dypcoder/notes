@@ -1,0 +1,3 @@
+tpStateName为key，LogisticsDataTmsOneMappingBean对象为value:
+Map<String, LogisticsDataTmsOneMappingBean> oneMap = oneList.stream().collect(Collectors.toMap(LogisticsDataTmsOneMappingBean::getTpStateName, a -> a,(k1, k2)->k1));
+Map<String, LogisticsDataTmsTwoMappingBean> twoMap = twoList.stream().collect(Collectors.toMap(LogisticsDataTmsTwoMappingBean::getTpStateName, a -> a,(k1, k2)->k1));
