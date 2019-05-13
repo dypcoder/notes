@@ -1,0 +1,9 @@
+/**查看数据库大小**/
+-- 1.查看所有数据库
+show databases; 
+-- 2.刚数据中存储其他数据库的信息
+use information_schema;
+-- 3. 获取数据库中所有库总和大小
+select concat(round(sum(DATA_LENGTH/1024/1024), 2), 'MB') as data_size from tables;
+-- 4 查找不同数据库的大小 结果如图
+select TABLe_SCHEMA as data_name,concat(round(sum(DATA_LENGTH/1024/1024), 2), 'MB') as data_size from tables group by TABLe_SCHEMA; 
