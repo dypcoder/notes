@@ -246,6 +246,7 @@ chown es /usr/local/elasticsearch-7.0.1 -R
 4.修改app.js的localhost为ip地址
 用 /app.App查找到对应位置
 修改为入图所示
+https://github.com/dypcoder/notes/blob/master/image/tempsnip.png
 
 
 5.然后在Elasticsearch-head文件夹下运行
@@ -268,5 +269,6 @@ chown es /usr/local/elasticsearch-7.0.1 -R
 启动 elasticsearch-head
 
 出现下图代表成功
+https://github.com/dypcoder/notes/blob/master/image/grunt.PNG
 
 
