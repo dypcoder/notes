@@ -181,27 +181,27 @@ vm.max_map_count=262144
 
 #### 5.部分报错
 ```diff
-+ error_1: [1]: max file descriptors [xxxx] for elasticsearch process is too low, increase to at least [65535]
-+ error_2: [2]: max number of threads [xxxx] for user [es] is too low, increase to at least [4096]
-- 参照第4步操作
+- error_1: [1]: max file descriptors [xxxx] for elasticsearch process is too low, increase to at least [65535]
+- error_2: [2]: max number of threads [xxxx] for user [es] is too low, increase to at least [4096]
++ 参照第4步操作
 ```
 ```diff
-+ error_3: can not run elasticsearch as root
-- 切换为为非root用户操作
+- error_3: can not run elasticsearch as root
++ 切换为为非root用户操作
 ```
 ```diff
-+ error_4: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
-- 查看上面等配置文件步骤
+- error_4: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
++ 查看上面等配置文件步骤
 ```
 ```diff
-+ error_5:  Exception in thread "main" java.nio.file.AccessDeniedException: /usr/local/elasticsearch-6.2.2/config/jvm.options 
-- 切换为root用户
-- 运行如下语句 es为之前创建的用户 /usr/local/elasticsearch-7.0.1 为ElasticSearch的路径
+- error_5:  Exception in thread "main" java.nio.file.AccessDeniedException: /usr/local/elasticsearch-6.2.2/config/jvm.options 
++ 切换为root用户
++ 运行如下语句 es为之前创建的用户 /usr/local/elasticsearch-7.0.1 为ElasticSearch的路径
 chown es /usr/local/elasticsearch-7.0.1 -R
 ```
 ```diff
-+ error_6:  Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x0000000085330000, 2060255232, 0) failed; error='Cannot allocate memory' (errno=12)
-- 修改 /usr/local/elasticsearch-7.0.1/config/jvm.options
+- error_6:  Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x0000000085330000, 2060255232, 0) failed; error='Cannot allocate memory' (errno=12)
++ 修改 /usr/local/elasticsearch-7.0.1/config/jvm.options
 [root@localhost ~]# vi /usr/local/elasticsearch-7.0.1/config/jvm.options
 
 #-Xms2g
