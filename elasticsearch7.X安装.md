@@ -212,3 +212,61 @@ chown es /usr/local/elasticsearch-7.0.1 -R
 
 ------------
 
+## 安装 Elasticsearch-head插件
+
+1.安装Grunt工具
+```Bash
+  [root@localhost ~]# npm install -g grunt-cli
+  [root@localhost ~]#  npm install grunt --save-dev
+  [root@localhost local]# grunt -version
+   grunt-cli v1.3.2
+```
+2.安装Elasticsearch-head插件
+```Bash
+  [root@localhost ~]# wget https://github.com/mobz/elasticsearch-head/archive/master.zip
+  [root@localhost ~]# yum install unzip
+  [root@localhost ~]# unzip master.zip
+  [root@localhost ~]# mv elasticsearch-head-master/ /usr/local/elasticsearch-head
+  [root@localhost ~]# cd /usr/local/elasticsearch-head/
+  [root@localhost elasticsearch-head]# vim Gruntfile.js
+```
+3.找到connect: {server: {   修改文件的内容为下面这样
+```javascript
+ connect: {
+                        server: {
+                                options: {
+                                        hostname: '*',
+                                        port: 9100,
+                                        base: '.',
+                                        keepalive: true
+                                }
+                        }
+                }
+```
+4.修改app.js的localhost为ip地址
+用 /app.App查找到对应位置
+修改为入图所示
+
+
+5.然后在Elasticsearch-head文件夹下运行
+```Bash
+ [root@localhost elasticsearch-head]# npm install
+```
+可能会遇到  Error: Command failed: tar jxf /tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
+这个报错 
+运行
+```Bash
+[root@localhost elasticsearch-head]# yum install bzip2
+```
+
+安装bzip2
+6.在/usr/local/elasticsearch-head 目录下 运行
+
+```Bash
+[root@localhost elasticsearch-head]# yum install bzip2
+```
+启动 elasticsearch-head
+
+出现下图代表成功
+
+
