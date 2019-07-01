@@ -1,0 +1,11 @@
+
+##mongodb批量更新
+
+```javascript
+db.getCollection('集合').find({"查询字段" : "字段值"}).forEach(
+   function(i){                
+       db.getCollection('集合').update({"_id":i._id},{$set:{"更新字段":"更新字段值"}})
+   }
+)
+```
+
