@@ -9,18 +9,18 @@
 ***
 ```java
 public V put(K key, V value) {
-	    //这边有个为key计算hash值的操作,hash算法还不太明白。。。
+	    //这边有个为key计算hash值的操作,hash算法的作用主要是不同的key尽量算出不同的hash值
         return putVal(hash(key), key, value, false, true);
     }
 
     //真正的put操作
     final V putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict) {
-//定义一下下面可能用到的局部变量,防止操作的时候操作了原来存储的类变量，其实就是将原本对象的引用指向局部变量(注意这边的tab是一个NOde数组)
+//定义一下下面可能用到的局部变量,防止操作的时候操作了原来存储的类变量，其实就是将原本对象的引用指向局部变量(注意这边的tab是一个Node数组) 其实操作的还是类变量
         Node<K,V>[] tab; Node<K,V> p; int n, i;
 	//判断是否为空及将成员变量的引用指向局部变量
         if ((tab = table) == null || (n = tab.length) == 0)
             n = (tab = resize()).length;
-//这边利用hash方法处理之后的hash值(hash函数将高位也参与到运算中，高位称之为扰动函数参与hash值的运算，大大增加了散列型，1.7版本是经过4次位运算，1.8由于加入红黑树的清苦啊只是做了这些处理)
+//这边利用hash方法处理之后的hash值(hash函数将高位也参与到运算中，高位称之为扰动函数参与hash值的运算，大大增加了散列型，1.7版本是经过4次位运算，1.8由于加入红黑树的情况只是做了这些处理)
 //跟数组大小做按位与运算获得下标，如果这个数组下标处为null的话，直接放入一个新的node。
         if ((p = tab[i = (n - 1) & hash]) == null)｛
 //调用一下node的构造方法向table中加入一个新元素，相当于新增列
