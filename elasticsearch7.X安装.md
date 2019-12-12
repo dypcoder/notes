@@ -162,7 +162,7 @@ vm.max_map_count=262144
 ```Bash
 [root@localhost ~]# sysctl -p
 ```
-**最后退出当钱登陆的root用户使以上配置生效**
+**最后退出当前登陆的root用户使以上配置生效**
 
 
 #### 5.启动
@@ -211,7 +211,7 @@ chown es /usr/local/elasticsearch-7.0.1 -R
 ```
 
 ------------
-
+## 推荐ElasticHD插件 简单好用，dowm下来后外网访问直接  运行./ElasticHD  也可以指定ip   ./ElasticHD  xx.xx.xx.xx:1234
 ## 安装 Elasticsearch-head插件
 
 1.安装Grunt工具
