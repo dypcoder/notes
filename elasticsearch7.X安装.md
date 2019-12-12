@@ -211,8 +211,8 @@ chown es /usr/local/elasticsearch-7.0.1 -R
 ```
 
 ------------
-## 推荐ElasticHD插件 简单好用，dowm下来后外网访问直接  运行./ElasticHD  也可以指定ip   ./ElasticHD  xx.xx.xx.xx:1234
-  下载地址    https://github.com/360EntSecGroup-Skylar/ElasticHD/releases
+## 推荐ElasticHD插件 简单好用，dowm下来后外网访问直接  运行./ElasticHD  也可以指定ip   ./ElasticHD  xx.xx.xx.xx:1234    
+  [下载地址](https://github.com/360EntSecGroup-Skylar/ElasticHD/releases "悬停显示")
 ------------
 ## 安装 Elasticsearch-head插件
 
